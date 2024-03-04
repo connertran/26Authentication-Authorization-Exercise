@@ -1,30 +1,60 @@
 {%extends 'base.html'%} {%block title%}User Info{%endblock%} {%block content%}
-<h1>Hello {{user.username}}</h1>
-<a href="/logout">Logout</a>
-<form action="/users/{{user.username}}/delete" method="POST">
-  <button type="submit">Delete User</button>
-</form>
-<p><b>Your username is:</b> {{user.username}}</p>
-<p><b>Your email is:</b> {{user.email}}</p>
-<p><b>Your first name is:</b> {{user.first_name}}</p>
-<p><b>Your last name is:</b> {{user.last_name}}</p>
+<div class="container">
+  <h1>Hello {{user.username}}</h1>
+  <a href="/logout">Logout</a>
+  <form action="/users/{{user.username}}/delete" method="POST">
+    <button type="submit" class="btn btn-danger mt-2 mb-2">Delete User</button>
+  </form>
+  <p><b>Your username is:</b> {{user.username}}</p>
+  <p><b>Your email is:</b> {{user.email}}</p>
+  <p><b>Your first name is:</b> {{user.first_name}}</p>
+  <p><b>Your last name is:</b> {{user.last_name}}</p>
 
-<ul>
-  {%for each_feedback in feedback%}
-  <li>
-    {{each_feedback.title}}-{{each_feedback.content}}-by
-    {{each_feedback.username}}
-  </li>
-  {%if user.username == each_feedback.username%}
-  <form action="/feedback/{{each_feedback.id}}/update">
-    <button type="submit">Edit</button>
+  <ul>
+    {%for each_feedback in feedback%}
+    <li>
+      <span class="fw-bold">{{each_feedback.title}}</span
+      ><br />{{each_feedback.content}}- by
+      <span class="text-decoration-underline">{{each_feedback.username}}</span>
+    </li>
+    {%if user.username == each_feedback.username%}
+    <form
+      action="/feedback/{{each_feedback.id}}/update"
+      style="display: inline-block"
+    >
+      <button
+        type="submit"
+        class="btn btn-primary"
+        style="
+          --bs-btn-padding-y: 0.01rem;
+          --bs-btn-padding-x: 0.5rem;
+          --bs-btn-font-size: 0.75rem;
+        "
+      >
+        Edit
+      </button>
+    </form>
+    <form
+      action="/feedback/{{each_feedback.id}}/delete"
+      method="POST"
+      style="display: inline-block"
+    >
+      <button
+        type="submit"
+        class="btn btn-outline-danger"
+        style="
+          --bs-btn-padding-y: 0.01rem;
+          --bs-btn-padding-x: 0.5rem;
+          --bs-btn-font-size: 0.75rem;
+        "
+      >
+        Delete
+      </button>
+    </form>
+    {%endif%} {%endfor%}
+  </ul>
+  <form action="/users/{{user.username}}/feedback/add">
+    <button type="submit" class="btn btn-secondary btn-sm">Add Feedback</button>
   </form>
-  <form action="/feedback/{{each_feedback.id}}/delete" method="POST">
-    <button type="submit">Delete</button>
-  </form>
-  {%endif%} {%endfor%}
-</ul>
-<form action="/users/{{user.username}}/feedback/add">
-  <button type="submit">Add Feedback</button>
-</form>
+</div>
 {%endblock%}

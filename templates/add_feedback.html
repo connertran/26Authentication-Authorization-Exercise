@@ -1,12 +1,17 @@
 {%extends 'base.html'%} {%block title%}New Feedback{%endblock%} {%block
 content%}
-<h1>New Feedback</h1>
-<form action="" method="POST">
-    <div></div>
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" required /></div>
-  <div><label for="content">Content:</label>
-  <input type="text" id="content" name="content" required /></div>
-  <button type="submit">Add</button>
-</form>
+<div class="container">
+  <h1>New Feedback</h1>
+  <form action="" method="POST">
+    <div class="mb-3">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required />
+    </div>
+    <div>
+      <label for="content">Content:</label>
+      <input type="text" id="content" name="content" required />
+    </div>
+    <button type="submit" class="btn btn-outline-success">Add</button>
+  </form>
+</div>
 {%endblock%}
