@@ -26,7 +26,7 @@ class User(db.Model):
                           nullable= False)
     last_name= db.Column(db.String(30),
                           nullable= False)
-    feedback = db.relationship('Feedback', backref= 'user')
+    feedback = db.relationship('Feedback', backref= 'user', cascade='all, delete-orphan')
     
     def greet(self):
         return f"username: {self.username}; email: {self.email}; first_name: {self.first_name}; last_name: {self.last_name}"
@@ -64,4 +64,4 @@ class Feedback(db.Model):
                      nullable=False)
     content=db.Column(db.Text,
                       nullable=False)
-    username=db.Column(db.String(20), db.ForeignKey('users.username'), nullable=False)
+    username=db.Column(db.String(20), db.ForeignKey('users.username', ondelete='CASCADE'), nullable=False)

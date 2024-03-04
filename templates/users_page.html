@@ -1,6 +1,9 @@
 {%extends 'base.html'%} {%block title%}User Info{%endblock%} {%block content%}
 <h1>Hello {{user.username}}</h1>
 <a href="/logout">Logout</a>
+<form action="/users/{{user.username}}/delete" method="POST">
+  <button type="submit">Delete User</button>
+</form>
 <p><b>Your username is:</b> {{user.username}}</p>
 <p><b>Your email is:</b> {{user.email}}</p>
 <p><b>Your first name is:</b> {{user.first_name}}</p>
@@ -16,7 +19,9 @@
   <form action="/feedback/{{each_feedback.id}}/update">
     <button type="submit">Edit</button>
   </form>
-  <form action=""><button type="submit">Delete</button></form>
+  <form action="/feedback/{{each_feedback.id}}/delete" method="POST">
+    <button type="submit">Delete</button>
+  </form>
   {%endif%} {%endfor%}
 </ul>
 <form action="/users/{{user.username}}/feedback/add">

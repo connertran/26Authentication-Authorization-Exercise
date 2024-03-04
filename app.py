@@ -92,6 +92,21 @@ def show_users_page(username):
     feedback= Feedback.query.all()
     return render_template("users_page.html", user=user, feedback=feedback)
 
+@app.route('/users/<username>/delete', methods=["POST"])
+def delete_user(username):
+    """delete user from db"""
+    if 'user_username' not in session:
+        return redirect('/login')
+    user_username = session.get('user_username')
+    if username != user_username:
+        return redirect(f'/users/{user_username}')
+    
+    session.pop("user_username")
+    user = User.query.filter_by(username = username).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('/')
+
 @app.route('/users/<username>/feedback/add')
 def add_new_feedback(username):
     """show add feedback form"""
@@ -131,3 +146,12 @@ def save_feedback_updates(feedback_id):
     feedback.content= content
     db.session.commit()
     return redirect(f'/users/{feedback.user.username}')
+
+@app.route('/feedback/<feedback_id>/delete', methods = ["POST"])
+def delete_feedback(feedback_id):
+    """delete feedback from db"""
+    feedback = Feedback.query.get_or_404(feedback_id)
+    user_username = feedback.user.username
+    db.session.delete(feedback)
+    db.session.commit()
+    return redirect(f'/users/{user_username}')
