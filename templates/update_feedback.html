@@ -1,0 +1,12 @@
+{%extends 'base.html'%} {%block title%}Edit Feedback{%endblock%} {%block
+    content%}
+    <h1>Edit Feedback</h1>
+    <form action="" method="POST">
+        <div></div>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="{{feedback.title}}" required /></div>
+      <div><label for="content">Content:</label>
+      <input type="text" id="content" name="content" placeholder="{{feedback.content}}" required /></div>
+      <button type="submit">Add</button>
+    </form>
+    {%endblock%}

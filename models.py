@@ -26,6 +26,7 @@ class User(db.Model):
                           nullable= False)
     last_name= db.Column(db.String(30),
                           nullable= False)
+    feedback = db.relationship('Feedback', backref= 'user')
     
     def greet(self):
         return f"username: {self.username}; email: {self.email}; first_name: {self.first_name}; last_name: {self.last_name}"
@@ -39,3 +40,28 @@ class User(db.Model):
 
         # return instance of user w/username and hashed pwd
         return cls(password=hashed_utf8)
+    
+    @classmethod
+    def authenticate(cls, username,pwd):
+        """validate that user exists & password is correct
+        Return user if valid;else return False"""
+        u = User.query.filter_by(username= username).first()
+
+        if u and bcrypt.check_password_hash(u.password, pwd):
+            # return user instance
+            return u
+        else:
+            return False
+        
+class Feedback(db.Model):
+    """Feedback."""
+    __tablename__="feedback"
+
+    id= db.Column(db.Integer,
+                  primary_key=True,
+                  autoincrement=True)
+    title =db.Column(db.String(100),
+                     nullable=False)
+    content=db.Column(db.Text,
+                      nullable=False)
+    username=db.Column(db.String(20), db.ForeignKey('users.username'), nullable=False)

@@ -1,0 +1,25 @@
+{%extends 'base.html'%} {%block title%}User Info{%endblock%} {%block content%}
+<h1>Hello {{user.username}}</h1>
+<a href="/logout">Logout</a>
+<p><b>Your username is:</b> {{user.username}}</p>
+<p><b>Your email is:</b> {{user.email}}</p>
+<p><b>Your first name is:</b> {{user.first_name}}</p>
+<p><b>Your last name is:</b> {{user.last_name}}</p>
+
+<ul>
+  {%for each_feedback in feedback%}
+  <li>
+    {{each_feedback.title}}-{{each_feedback.content}}-by
+    {{each_feedback.username}}
+  </li>
+  {%if user.username == each_feedback.username%}
+  <form action="/feedback/{{each_feedback.id}}/update">
+    <button type="submit">Edit</button>
+  </form>
+  <form action=""><button type="submit">Delete</button></form>
+  {%endif%} {%endfor%}
+</ul>
+<form action="/users/{{user.username}}/feedback/add">
+  <button type="submit">Add Feedback</button>
+</form>
+{%endblock%}
